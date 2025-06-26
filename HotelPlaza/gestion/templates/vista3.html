@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Personas</title>
+</head>
+<body>
+    <h1>Personas</h1>
+    <ul>
+        {% for persona in personas %}
+            <li>{{ persona.nombre }} - {{ persona.edad }} - {{ persona.email }}</li>
+        {% empty %}
+            
+        {% endfor %}
+
+         <ul> 
+            
+            {% for categoria in persona.categoria %}
+                <li>{{ categoria.id }} / {{ categoria.nombre }}</li>
+            {% empty %}
+                
+            {% endfor %}
+        </ul>
+</body>
+</html>
