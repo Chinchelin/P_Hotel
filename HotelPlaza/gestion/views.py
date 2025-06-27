@@ -39,35 +39,35 @@ def checkouts(request):
 
 # Productos
 def productos(request):
-    return render(request, 'productos.html')
+    return render(request, 'inventario/productos.html')
 
 def categorias(request):
-    return render(request, 'categorias.html')
+    return render(request, 'inventario/categorias.html')
 
 def marcas(request):
-    return render(request, 'marcas.html')
+    return render(request, 'inventario/marcas.html')
 
 
 # Proveedores y Compras
 def proveedores(request):
-    return render(request, 'proveedores.html')
+    return render(request, 'compras/proveedores.html')
 
 def compras(request):
-    return render(request, 'compras.html')
+    return render(request, 'compras/compras.html')
 
 def detalle_compras(request):
-    return render(request, 'detalle_compras.html')
+    return render(request, 'compras/detalle_compras.html')
 
 
 # Ventas
 def ventas(request):
-    return render(request, 'ventas.html')
+    return render(request, 'ventas/ventas.html')
 
 def detalle_ventas(request):
-    return render(request, 'detalle_ventas.html')
+    return render(request, 'ventas/detalle_ventas.html')
 
 def facturas(request):
-    return render(request, 'facturas.html')
+    return render(request, 'ventas/facturas.html')
 
 
 # Tareas y Gestión Interna
