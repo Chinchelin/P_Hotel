@@ -9,17 +9,17 @@
     <ul>
         {% for persona in personas %}
             <li>{{ persona.nombre }} - {{ persona.edad }} - {{ persona.email }}</li>
+            <ul> 
+                {% for categoria in persona.categorias %}
+                    <li>{{ categoria.id }} / {{ categoria.nombre }}</li>
+                {% empty %}
+                    <li>Sin categorías</li>
+                {% endfor %}
+            </ul>
         {% empty %}
-            
+            <li>No hay personas</li>
         {% endfor %}
-
-         <ul> 
-            
-            {% for categoria in persona.categoria %}
-                <li>{{ categoria.id }} / {{ categoria.nombre }}</li>
-            {% empty %}
-                
-            {% endfor %}
-        </ul>
+    </ul>
 </body>
 </html>
+

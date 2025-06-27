@@ -1,41 +1,35 @@
 # gestion/views.py
 from django.shortcuts import render
-from django.http import*
-
+from django.http import *
 
 # Panel Principal
 def panel_control(request):
-    return render(request, 'panelcontrol.html')
-
+    return render(request, 'panel/panelcontrol.html')
 
 # Usuarios
 def usuarios(request):
     return render(request, 'usuarios.html')
 
-
 # Clientes
 def clientes(request):
     return render(request, 'clientes.html')
 
-
 # Habitaciones
 def habitaciones(request):
-    return render(request, 'habitaciones.html')
-
+    return render(request, 'hotel/habitaciones.html')
 
 # Reservas
 def reservas(request):
-    return render(request, 'reservas.html')
+    return render(request, 'hotel/reservas/reservas.html')
 
 def detalle_reservas(request):
-    return render(request, 'detalle_reservas.html')
+    return render(request, 'hotel/reservas/detalle_reservas.html')
 
 def checkins(request):
-    return render(request, 'checkins.html')
+    return render(request, 'hotel/checkins.html')
 
 def checkouts(request):
-    return render(request, 'checkouts.html')
-
+    return render(request, 'hotel/checkouts.html')
 
 # Productos
 def productos(request):
@@ -47,7 +41,6 @@ def categorias(request):
 def marcas(request):
     return render(request, 'marcas.html')
 
-
 # Proveedores y Compras
 def proveedores(request):
     return render(request, 'proveedores.html')
@@ -58,7 +51,6 @@ def compras(request):
 def detalle_compras(request):
     return render(request, 'detalle_compras.html')
 
-
 # Ventas
 def ventas(request):
     return render(request, 'ventas.html')
@@ -68,7 +60,6 @@ def detalle_ventas(request):
 
 def facturas(request):
     return render(request, 'facturas.html')
-
 
 # Tareas y Gestión Interna
 def tareas(request):
@@ -83,19 +74,17 @@ def capacitaciones(request):
 def asistencias(request):
     return render(request, 'asistencias.html')
 
-
 # Reportes
 def reportes(request):
     return render(request, 'reportes.html')
 
-
-# Login (opcional)
+# Login
 def login(request):
-    return render(request, 'login.html')
+    return render(request, 'login/login.html')
 
 # Página inicial
 def Pagina(request):
-    return render(request, 'pagina.html')
+    return render(request, 'pagina/pagina.html')
 
 def prueba():
     personas = [
@@ -103,20 +92,15 @@ def prueba():
             'nombre': 'Juan',
             'edad': 30,
             'email': 'juan@example.com',
-         
         },
         {
-
             'nombre': 'Ana',
             'edad': 25,
             'email': 'ana@example.com'
         },
-        
-       
     ]
     return personas
 
 def vista3(request):
-    personas = prueba() 
+    personas = prueba()
     return render(request, 'vista3.html', {'personas': personas})
-
