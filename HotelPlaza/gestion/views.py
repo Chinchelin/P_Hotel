@@ -10,12 +10,12 @@ def panel_control(request):
 
 # Usuarios
 def usuarios(request):
-    return render(request, 'usuarios.html')
+    return render(request, 'usuarios/usuarios.html')
 
 
 # Clientes
 def clientes(request):
-    return render(request, 'clientes.html')
+    return render(request, 'Clientes/clientes.html')
 
 
 # Habitaciones
@@ -72,21 +72,21 @@ def facturas(request):
 
 # Tareas y Gestión Interna
 def tareas(request):
-    return render(request, 'tareas.html')
+    return render(request, 'Tareas/tareas.html')
 
 def asignaciones(request):
-    return render(request, 'asignaciones.html')
+    return render(request, 'usuarios/asignaciones.html')
 
 def capacitaciones(request):
-    return render(request, 'capacitaciones.html')
+    return render(request, 'Capacitaciones/capacitaciones.html')
 
 def asistencias(request):
-    return render(request, 'asistencias.html')
+    return render(request, 'Capacitaciones/asistencias.html')
 
 
 # Reportes
 def reportes(request):
-    return render(request, 'reportes.html')
+    return render(request, 'Reportes/reportes.html')
 
 
 # Login (opcional)
