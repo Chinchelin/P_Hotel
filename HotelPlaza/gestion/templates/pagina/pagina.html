@@ -1,9 +1,35 @@
-<!DOCTYPE html>
-<html>
+{% load static %}
+<!doctype html>
+<html lang="es">
 <head>
-    <title>Panel de Control</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap Example</title>
+
+  <!-- jQuery -->
+  <script src="{% static 'lib/AdminLTE/plugins/jquery/jquery.min.js' %}"></script>
+
+  <!-- Bootstrap Bundle -->
+  <script src="{% static 'lib/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- AdminLTE CSS -->
+  <link rel="stylesheet" href="{% static 'lib/AdminLTE/css/adminlte.min.css' %}">
+
+  <!-- AdminLTE JS -->
+  <script src="{% static 'lib/AdminLTE/js/adminlte.min.js' %}"></script>
 </head>
-<body>
-    <h1>Bienvenido al Panel de Control</h1>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content pt-3">
+      <div class="container-fluid">
+        <h1 class="text-primary">¡Hola, mundo con AdminLTE!</h1>
+        <button class="btn btn-success">Botón de AdminLTE</button>
+      </div>
+    </section>
+  </div>
+</div>
 </body>
 </html>
