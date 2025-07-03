@@ -66,8 +66,4 @@ urlpatterns = [
     # Página inicial
     path('pagina/', Pagina),
 
-
-    #PRUEBA
-    path('vista3.html/', vista3),
-    path('prueba/', prueba),
 ]

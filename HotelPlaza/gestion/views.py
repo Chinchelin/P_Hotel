@@ -85,22 +85,3 @@ def login(request):
 # Página inicial
 def Pagina(request):
     return render(request, 'pagina/pagina.html')
-
-def prueba():
-    personas = [
-        {
-            'nombre': 'Juan',
-            'edad': 30,
-            'email': 'juan@example.com',
-        },
-        {
-            'nombre': 'Ana',
-            'edad': 25,
-            'email': 'ana@example.com'
-        },
-    ]
-    return personas
-
-def vista3(request):
-    personas = prueba()
-    return render(request, 'vista3.html', {'personas': personas})
