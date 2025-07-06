@@ -130,6 +130,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'gestion', 'static'),
 ]
 
+
 # =====================
 # Configuración extra
 # =====================
