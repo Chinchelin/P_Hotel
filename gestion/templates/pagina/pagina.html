@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+🏨 Hotel Plaza | Tabla General
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Título de la página -->
+  <h2 class="mb-4 text-center">📋 Registro General</h2>
+
+  <!-- Tabla con Bootstrap + DataTables -->
+  <div class="table-responsive">
+    <table id="miTabla" class="table table-bordered table-hover">
+      <thead class="table-warning">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Servicio</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Puedes usar un for de Django para renderizar datos dinámicos -->
+        <tr>
+          <td>1</td>
+          <td>Juan Pérez</td>
+          <td>Habitación Doble</td>
+          <td>2025-07-06</td>
+          <td><span class="badge bg-success">Confirmado</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Laura Ríos</td>
+          <td>Spa</td>
+          <td>2025-07-07</td>
+          <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Carlos Méndez</td>
+          <td>Reserva VIP</td>
+          <td>2025-07-05</td>
+          <td><span class="badge bg-danger">Cancelado</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Inicialización de DataTables -->
+<script>
+  $(document).ready(function() {
+    $('#miTabla').DataTable({
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}🏨 Hotel Plaza | Bienvenido{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css'%}">
+
+  <!-- FontAwesome para iconos (emojis también disponibles) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'plugins/js/dataTables.bootstrap5.min.js' %}">
+
+  <!-- Estilo base con colores cálidos -->
+  <style>
+    body {
+      background-color: #fffdf5; /* Fondo suave cálido */
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #fff3cd !important; /* Amarillo claro */
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #856404; /* Marrón suave */
+    }
+
+    .navbar-nav .nav-link {
+      color: #6c757d !important; /* Gris suave */
+    }
+
+    footer {
+      background-color: #6c757d;
+      color: #f8f9fa;
+    }
+
+    .btn-amarillo {
+      background-color: #ffeeba;
+      color: #856404;
+    }
+
+    .btn-amarillo:hover {
+      background-color: #fff3cd;
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- NAVBAR PRINCIPAL -->
+<nav class="navbar navbar-expand-lg shadow-sm">
+  <div class="container">
+    <!-- Marca del hotel con emoji -->
+    <a class="navbar-brand" href="{% url 'home' %}">🏨 Hotel Plaza</a>
+
+    <!-- Botón para colapsar en móviles -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Enlaces del menú -->
+    <div class="collapse navbar-collapse" id="navbarContenido">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="pagina">🏠 Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">🛏️ Servicios</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">📖 Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">📞 Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CUERPO PRINCIPAL DE LA PÁGINA -->
+<main class="container py-5">
+  {% block content %}
+  <!-- Aquí irá el contenido dinámico -->
+  {% endblock %}
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-1">© 2025 Hotel Plaza. Todos los derechos reservados.</p>
+    <small>Diseñado con 💛 usando Django + Bootstrap.</small>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="{% static 'plugins/jquery/jquery.js'%}"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
+
+<!-- DataTables scripts -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- JS adicional por página -->
+{% block extra_js %}{% endblock %}
+</body>
+</html>
