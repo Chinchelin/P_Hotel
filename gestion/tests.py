@@ -1,14 +1,16 @@
 import os
 import django
 
-# Establecer configuración del proyecto
+# 🧠 Asegura que se cargue la configuración de Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HotelPlaza.settings')
+
+# 🧠 Inicializa Django (requiere que esté bien configurado BASE_DIR y apps)
 django.setup()
 
-# Ahora puedes importar modelos
+# ✅ Ahora puedes importar tus modelos
 from gestion.models import Categoria
 
-# Listar todas las categorías
+# ✅ Consultar y mostrar todas las categorías
 categorias = Categoria.objects.all()
 
 for categoria in categorias:

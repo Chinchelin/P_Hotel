@@ -1,66 +1,64 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 
-{% block title %}
-🏨 Hotel Plaza | Tabla General
-{% endblock %}
+{% block title %}Inicio | Hotel Plaza{% endblock %}
 
 {% block content %}
-<div class="container">
 
-  <!-- Título de la página -->
-  <h2 class="mb-4 text-center">📋 Registro General</h2>
-
-  <!-- Tabla con Bootstrap + DataTables -->
-  <div class="table-responsive">
-    <table id="miTabla" class="table table-bordered table-hover">
-      <thead class="table-warning">
-        <tr>
-          <th>#</th>
-          <th>Nombre</th>
-          <th>Servicio</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Puedes usar un for de Django para renderizar datos dinámicos -->
-        <tr>
-          <td>1</td>
-          <td>Juan Pérez</td>
-          <td>Habitación Doble</td>
-          <td>2025-07-06</td>
-          <td><span class="badge bg-success">Confirmado</span></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Laura Ríos</td>
-          <td>Spa</td>
-          <td>2025-07-07</td>
-          <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Carlos Méndez</td>
-          <td>Reserva VIP</td>
-          <td>2025-07-05</td>
-          <td><span class="badge bg-danger">Cancelado</span></td>
-        </tr>
-      </tbody>
-    </table>
+<!-- ENCABEZADO PRINCIPAL -->
+<section class="py-5 px-4 text-center bg-light border rounded shadow-sm">
+  <h1 class="display-5 fw-bold text-dark">Hotel Plaza 🏨</h1>
+  <p class="lead text-secondary mt-3">
+    Bienvenido al descanso llanero 🌾 donde el silencio del amanecer, el canto de los grillos y la hospitalidad se combinan.
+  </p>
+  <div class="mt-4">
+    <a href="{% url 'reservas' %}" class="btn btn-amarillo btn-lg me-2">📅 Reservar ahora</a>
+    <a href="{% url 'habitaciones' %}" class="btn btn-outline-secondary btn-lg">🛏️ Ver habitaciones</a>
   </div>
-</div>
-{% endblock %}
+</section>
 
-{% block extra_js %}
-<!-- Inicialización de DataTables -->
-<script>
-  $(document).ready(function() {
-    $('#miTabla').DataTable({
-      language: {
-        url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-      }
-    });
-  });
-</script>
+<!-- SECCIÓN DE VALORES LLANEROS -->
+<section class="py-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title text-warning">Sombras bajo el sombrero 🤠</h4>
+          <p class="card-text text-muted">
+            Habitaciones cómodas y frescas para el descanso del viajero. Inspiradas en la tradición y sencillez del llano.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title text-warning">Corazón de sabana 🌅</h4>
+          <p class="card-text text-muted">
+            Nuestra ubicación te conecta con los paisajes, la cultura y la tranquilidad del llano colombiano.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h4 class="card-title text-warning">Atención con alma 🫱🏽‍🫲🏼</h4>
+          <p class="card-text text-muted">
+            Te recibimos como en casa, con respeto, calidez y la sonrisa honesta del personal llanero.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRASE CENTRAL -->
+<section class="bg-warning bg-opacity-25 py-5 px-4 rounded shadow-sm text-center mt-5">
+  <h3 class="mb-3 text-dark">Siente el alma del llano en cada rincón del hotel 🐎</h3>
+  <p class="text-muted mb-4">
+    Ven a descansar como un sabanero. Aquí la brisa canta, la hamaca espera y el café se sirve con cariño ☕.
+  </p>
+  <a href="#" class="btn btn-outline-dark btn-lg">📞 Contáctanos</a>
+</section>
+
 {% endblock %}

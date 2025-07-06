@@ -1,0 +1,31 @@
+body {
+  background-color: #fffdf5; /* Fondo suave cálido */
+  color: #333;
+}
+
+.navbar {
+  background-color: #fff3cd !important;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #856404;
+}
+
+.navbar-nav .nav-link {
+  color: #6c757d !important;
+}
+
+footer {
+  background-color: #6c757d;
+  color: #f8f9fa;
+}
+
+.btn-amarillo {
+  background-color: #ffeeba;
+  color: #856404;
+}
+
+.btn-amarillo:hover {
+  background-color: #fff3cd;
+}
