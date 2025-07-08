@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for cliente in object %}
+            {% for cliente in object_list %}
             <tr>
               <td>{{ cliente.id }}</td>
               <td>{{ cliente.nombre }}</td>
@@ -38,10 +38,11 @@
               <!-- Dentro de la columna "Acciones" de cada cliente -->
 <td class="text-center">
   <div class="btn-group btn-group-sm">
-    <a href="#" class="btn btn-outline-secondary">crear</a>
-    <a href="#" class="btn btn-outline-primary">Editar</a>
-    <a href="#" class="btn btn-outline-danger">Eliminar</a>
-    <a href="#" class="btn btn-outline-secondary">Ver</a>
+    <a href="{% url 'cliente_crear' %}" class="btn btn-outline-secondary">Crear</a>
+    <a href="{% url 'cliente_editar' cliente.id %}" class="btn btn-primary">Editar</a>
+    <a href="{% url 'cliente_eliminar' cliente.pk %}" class="btn btn-outline-danger">Eliminar</a>
+    <a href="{% url 'tabla_clientes' %}" class="btn btn-outline-secondary">Ver</a>
+
   </div>
 </td>
                <!-- Dentro de la columna "Acciones" de cada cliente -->

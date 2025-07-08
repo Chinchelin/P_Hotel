@@ -3,15 +3,22 @@ from . import views
 from gestion.views import tabla_clientes
 from gestion.views import ClienteListView
 from gestion.views import ClienteCreateView
+from gestion.views import ClienteUpdateView
+from gestion.views import ClienteDeleteView
 
 urlpatterns = [
 
 
 path('tabla/', ClienteListView.as_view(), name='tabla_clientes'),
+
 # Rutas CRUD para clientes
 # path('clientes/crear/', cliente_create, name='cliente_create')
- path('clientes/crear/', ClienteCreateView.as_view(), name='cliente_crear'),
+path('clientes/crear/', ClienteCreateView.as_view(), name='cliente_crear'),
 # path('clientes/<int:id>/editar/', cliente_update, name='cliente_update')
+path('clientes/editar/<int:pk>/', ClienteUpdateView.as_view(), name='cliente_editar'),
+#clientes para eliminar
+path('clientes/eliminar/<int:pk>/', ClienteDeleteView.as_view(), name='cliente_eliminar'),
+
 # etc.
 
 

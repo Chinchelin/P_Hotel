@@ -5,8 +5,27 @@
   <h2>{{ titulo }}</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar</button>
+    {% if titulo == 'Eliminar Cliente' %}
+      <p>¿Estás seguro que deseas eliminar este cliente?</p>
+      <ul class="list-group mb-3">
+        <li class="list-group-item"><strong>Nombre:</strong> {{ object.nombre }}</li>
+        <li class="list-group-item"><strong>Apellido:</strong> {{ object.apellido }}</li>
+        <li class="list-group-item"><strong>Documento:</strong> {{ object.numero_documento }}</li>
+        <li class="list-group-item"><strong>Teléfono:</strong> {{ object.telefono }}</li>
+        <li class="list-group-item"><strong>Correo:</strong> {{ object.correo }}</li>
+      </ul>
+    {% else %}
+      {{ form.as_p }}
+    {% endif %}
+    <button type="submit" class="btn {% if titulo == 'Eliminar Cliente' %}btn-danger{% else %}btn-success{% endif %}">
+      {% if titulo == 'Eliminar Cliente' %}
+        Confirmar Eliminación
+      {% elif titulo == 'Editar Cliente' %}
+        Guardar Cambios
+      {% else %}
+        Guardar
+      {% endif %}
+    </button>
     <a href="/clientes/" class="btn btn-secondary">Cancelar</a>
   </form>
 </div>

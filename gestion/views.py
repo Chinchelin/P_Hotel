@@ -3,6 +3,8 @@ from .models import Cliente
 from django.views.generic import ListView 
 from django.views.generic.edit import CreateView
 from .forms import ClienteForm
+from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
 
 
 def tabla_clientes(request):
@@ -19,7 +21,6 @@ class ClienteListView(ListView):
         context = super().get_context_data(**kwargs)
         context['clientes'] = Cliente.objects.all()
         return context
-
 # Vista para crear nuevo cliente
 class ClienteCreateView(CreateView):
     model = Cliente
@@ -32,12 +33,34 @@ class ClienteCreateView(CreateView):
         context['titulo'] = 'Crear Cliente'
         return context
 
+    def post(self, request, *args, **kwargs):
+        print("Se llamó al método POST")
+        return super().post(request, *args, **kwargs)
 
 # 
 
 # Vista para editar cliente existente
+class ClienteUpdateView(UpdateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'clientes/crear.html'
+    success_url = '/clientes/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Editar Cliente'
+        return context
 
 # Vista para eliminar cliente
+class ClienteDeleteView(DeleteView):
+    model = Cliente
+    template_name = 'clientes/crear.html'  # Usarás el mismo template
+    success_url = '/clientes/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Eliminar Cliente'
+        return context
 # Vista para ver detalles de un cliente
 
 
