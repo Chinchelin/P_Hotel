@@ -19,11 +19,12 @@
               <th style="width: 15%;">Documento</th>
               <th style="width: 15%;">Teléfono</th>
               <th style="width: 20%;">Correo</th>
+              <th style="width: 15%;">Fecha de Nacimiento</th>
               <th style="width: 15%;">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {% for cliente in clientes %}
+            {% for cliente in object %}
             <tr>
               <td>{{ cliente.id }}</td>
               <td>{{ cliente.nombre }}</td>
@@ -31,11 +32,13 @@
               <td>{{ cliente.numero_documento }}</td>
               <td>{{ cliente.telefono }}</td>
               <td>{{ cliente.correo }}</td>
+              <td>{{ cliente.fecha_nacimiento }}</td>
 
 
               <!-- Dentro de la columna "Acciones" de cada cliente -->
 <td class="text-center">
   <div class="btn-group btn-group-sm">
+    <a href="#" class="btn btn-outline-secondary">crear</a>
     <a href="#" class="btn btn-outline-primary">Editar</a>
     <a href="#" class="btn btn-outline-danger">Eliminar</a>
     <a href="#" class="btn btn-outline-secondary">Ver</a>

@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import Cliente
+from django.views.generic import ListView 
+from django.views.generic.edit import CreateView
+from .forms import ClienteForm
 
 
 def tabla_clientes(request):
@@ -7,8 +10,33 @@ def tabla_clientes(request):
     return render(request, 'clientes/tabla_clientes.html', {'clientes': clientes})
 
 # Vista para listar clientes
+class ClienteListView(ListView):
+    model = Cliente
+    template_name = 'clientes/tabla_clientes.html'
+    context_object_name = 'clientes'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['clientes'] = Cliente.objects.all()
+        return context
+
 # Vista para crear nuevo cliente
+class ClienteCreateView(CreateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'clientes/crear.html'
+    success_url = '/clientes/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Crear Cliente'
+        return context
+
+
+# 
+
 # Vista para editar cliente existente
+
 # Vista para eliminar cliente
 # Vista para ver detalles de un cliente
 
