@@ -1,5 +1,13 @@
 from django.shortcuts import render
 from .models import Cliente
+from django.views.generic import ListView
+from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from .models import Marca
 
 
 def tabla_clientes(request):
@@ -82,10 +90,70 @@ def productos(request):
 def categorias(request):
     return render(request, 'inventario/categorias.html')
 
-def marcas(request):
-    return render(request, 'inventario/marcas.html')
+class MarcaListView(ListView):
+    model = Marca
+    template_name = 'marcas/listar.html'
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Listado de Marcas'
+        context['crear_url'] = reverse_lazy('marcas_crear')
+        context['entidad'] = 'Marcas'
+        return context
+# En gestion/views.py
+class MarcaCreateView(CreateView):
+    model = Marca
+    fields = '__all__'
+    template_name = 'marcas/form.html'
+    success_url = reverse_lazy('marcas_listar')
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Creación de una Marca'
+        context['entidad'] = 'Marcas'
+        context['listar_url'] = reverse_lazy('marcas_listar')
+        return context
 
+class MarcaUpdateView(UpdateView):
+    model = Marca
+    fields = '__all__'
+    template_name = 'marcas/form.html'
+    success_url = reverse_lazy('marcas_listar')
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Edición de una Marca'
+        context['entidad'] = 'Marcas'
+        context['listar_url'] = reverse_lazy('marcas_listar')
+        return context
 
+class MarcaDeleteView(DeleteView):
+    model = Marca
+    template_name = 'marcas/eliminar.html'
+    success_url = reverse_lazy('marcas_listar')
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Eliminación de una Marca'
+        context['entidad'] = 'Marcas'
+        context['listar_url'] = reverse_lazy('marcas_listar')
+        return context
 # ===============================
 # Compras
 # ===============================
