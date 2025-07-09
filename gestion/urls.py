@@ -1,10 +1,8 @@
 from django.urls import path
 from . import views
 from gestion.views import tabla_clientes
-from gestion.views import ClienteListView
-from gestion.views import ClienteCreateView
-from gestion.views import ClienteUpdateView
-from gestion.views import ClienteDeleteView
+from gestion.views import ClienteListView, ClienteCreateView, ClienteUpdateView, ClienteDeleteView
+from gestion.views import ProveedorListView, ProveedorCreateView, ProveedorUpdateView, ProveedorDeleteView
 
 urlpatterns = [
 
@@ -18,6 +16,7 @@ path('clientes/crear/', ClienteCreateView.as_view(), name='cliente_crear'),
 path('clientes/editar/<int:pk>/', ClienteUpdateView.as_view(), name='cliente_editar'),
 #clientes para eliminar
 path('clientes/eliminar/<int:pk>/', ClienteDeleteView.as_view(), name='cliente_eliminar'),
+
 
 # etc.
 
@@ -54,7 +53,10 @@ path('clientes/eliminar/<int:pk>/', ClienteDeleteView.as_view(), name='cliente_e
     path('inventario/marcas/', views.marcas, name='marcas'),
 
     # Compras
-    path('compras/proveedores/', views.proveedores, name='proveedores'),
+    path('proveedores/', ProveedorListView.as_view(), name='tabla_proveedores'),
+    path('proveedores/crear/', ProveedorCreateView.as_view(), name='proveedor_crear'),
+    path('proveedores/editar/<int:pk>/', ProveedorUpdateView.as_view(), name='proveedor_editar'),
+    path('proveedores/eliminar/<int:pk>/', ProveedorDeleteView.as_view(), name='proveedor_eliminar'),
     path('compras/', views.compras, name='compras'),
     path('compras/detalle/', views.detalle_compras, name='detalle_compras'),
 

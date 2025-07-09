@@ -30,11 +30,13 @@
         <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'tabla_clientes' %}">CLiente Tabla</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'tabla_proveedores' %}">Proveedores</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
-
 
 <main class="container py-5">
   {% block content %}{% endblock %}

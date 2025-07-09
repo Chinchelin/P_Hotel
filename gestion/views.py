@@ -5,6 +5,8 @@ from django.views.generic.edit import CreateView
 from .forms import ClienteForm
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
+from .models import Proveedor
+from .forms import ProveedorForm
 
 
 def tabla_clientes(request):
@@ -141,12 +143,52 @@ def marcas(request):
 # Compras
 # ===============================
 
-def proveedores(request):
-    return render(request, 'compras/proveedores.html')
+class ProveedorListView(ListView):
+    model = Proveedor
+    template_name = 'compras/proveedores.html'
+    context_object_name = 'proveedores'
+
+class ProveedorCreateView(CreateView):
+    model = Proveedor
+    form_class = ProveedorForm
+    template_name = 'compras/proveedor_form.html'
+    success_url = '/proveedores/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Crear Proveedor'
+        return context
+
+class ProveedorUpdateView(UpdateView):
+    model = Proveedor
+    form_class = ProveedorForm
+    template_name = 'compras/proveedor_form.html'
+    success_url = '/proveedores/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Editar Proveedor'
+        return context
+
+class ProveedorDeleteView(DeleteView):
+    model = Proveedor
+    template_name = 'compras/proveedor_form.html'  
+    success_url = '/proveedores/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Eliminar Proveedor'
+        return context
+
+# ===============================
+# Compras
+# ===============================
 
 def compras(request):
     return render(request, 'compras/compras.html')
-
+# ===============================
+# Detalle de compras
+# ===============================
 def detalle_compras(request):
     return render(request, 'compras/detalle_compras.html')
 

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ titulo }}</h2>
+  
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% if 'Eliminar' in titulo %}
+      <p>¿Estás seguro que deseas eliminar este proveedor?</p>
+      <ul class="list-group mb-3">
+        <li class="list-group-item"><strong>Nombre:</strong> {{ object.nombre }}</li>
+        <li class="list-group-item"><strong>NIT:</strong> {{ object.nit }}</li>
+        <li class="list-group-item"><strong>Correo:</strong> {{ object.correo }}</li>
+        <li class="list-group-item"><strong>Estado:</strong>
+          {% if object.estado %}
+            Activo
+          {% else %}
+            Inactivo
+          {% endif %}
+        </li>
+      </ul>
+    {% else %}
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          Por favor corrige los errores en el formulario.
+        </div>
+      {% endif %}
+      {{ form.as_p }}
+    {% endif %}
+
+    <button type="submit" class="btn 
+      {% if 'Eliminar' in titulo %}btn-danger{% else %}btn-success{% endif %}">
+      {% if 'Eliminar' in titulo %}
+        Confirmar Eliminación
+      {% elif 'Editar' in titulo %}
+        Guardar Cambios
+      {% else %}
+        Guardar
+      {% endif %}
+    </button>
+    
+    <a href="{% url 'tabla_proveedores' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
