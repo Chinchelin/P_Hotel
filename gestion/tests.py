@@ -10,7 +10,6 @@ django.setup()
 # ✅ Ahora puedes importar tus modelos
 from gestion.models import Categoria
 
-# ✅ Consultar y mostrar todas las categorías
 categorias = Categoria.objects.all()
 
 for categoria in categorias:
