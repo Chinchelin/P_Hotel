@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from gestion.views import MarcaCreateView, MarcaDeleteView, MarcaListView, MarcaUpdateView, tabla_clientes
+from gestion.views import MarcaCreateView, MarcaDeleteView, MarcaDetailView, MarcaListView, MarcaUpdateView, tabla_clientes
 
 urlpatterns = [
 
@@ -42,6 +42,7 @@ path('tabla/', tabla_clientes, name='tabla_clientes'),
     path('inventario/productos/', views.productos, name='productos'),
     path('inventario/categorias/', views.categorias, name='categorias'),
     
+    path('marcas/ver/<int:pk>/', MarcaDetailView.as_view(), name='marcas_ver'),
     path('marcas/marcas/', MarcaListView.as_view(), name='marcas_listar'),
     path('marcas/crear/', MarcaCreateView.as_view(), name='marcas_crear'),
     path('marcas/editar/<int:pk>/', MarcaUpdateView.as_view(), name='marcas_editar'),

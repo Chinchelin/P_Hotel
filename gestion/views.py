@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from django.views.generic import DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -89,7 +90,23 @@ def productos(request):
 
 def categorias(request):
     return render(request, 'inventario/categorias.html')
-
+# ===============================
+# Marcas
+# ===============================
+class MarcaDetailView(DetailView):
+    model = Marca
+    template_name = 'marcas/detalle.html'
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Detalle de Marca'
+        context['listar_url'] = reverse_lazy('marcas_listar')
+        return context
+    
 class MarcaListView(ListView):
     model = Marca
     template_name = 'marcas/listar.html'

@@ -1,0 +1,38 @@
+<!-- gestion/templates/inventario/marcas/detalle.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-search"></i>
+            {{ titulo }}
+        </h3>
+    </div>
+    
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Nombre:</label>
+                    <p class="form-control-static">{{ object.nombre }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Descripción:</label>
+                    <p class="form-control-static">{{ object.descripcion|default:"No hay descripción" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-footer">
+        <a href="{{ listar_url }}" class="btn btn-primary">
+            <i class="fas fa-arrow-left"></i> Volver al listado
+        </a>
+    </div>
+</div>
+{% endblock %}

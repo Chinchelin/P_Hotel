@@ -3,40 +3,46 @@
 {% load static %}
 
 {% block head %}
-<!-- DataTables -->
+<!-- DataTables CSS -->
 <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
 <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}">
-<!-- Custom styles -->
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{% static 'lib/fontawesome-free/css/all.min.css' %}">
 <style>
-    .card {
-        margin-top: 20px;
+    .btn-group-sm > .btn, .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.2rem;
     }
-    .table th, .table td {
-        vertical-align: middle;
-    }
-    .btn-group-actions {
+    .btn-actions {
         white-space: nowrap;
+    }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="card card-default">
+<div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-search"></i>
-            {{ titulo }}
-        </h3>
+        <h3 class="card-title">Lista de Marcas</h3>
+        <a href="{% url 'marcas_crear' %}" class="btn btn-success btn-sm">
+           <i class="fa-solid fa-user-plus"></i> Crear Marca
+        </a>
     </div>
     
     <div class="card-body">
-        <table class="table" id="tabla">
+        <table id="tabla" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Opciones</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,30 +51,32 @@
                     <td>{{ marca.id }}</td>
                     <td>{{ marca.nombre }}</td>
                     <td>{{ marca.descripcion|default:"-" }}</td>
-                    <td class="btn-group-actions">
-                        <a href="{% url 'marcas_editar' marca.id %}" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        <a href="{% url 'marcas_eliminar' marca.id %}" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Eliminar
-                        </a>
+                    <td class="btn-actions">
+                        <div class="btn-group">
+                            <!-- Botón Buscar -->
+                            <a href="{% url 'marcas_ver' marca.id %}" class="btn btn-info btn-sm" title="Ver detalles">
+                               <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <!-- Botón Editar -->
+                            <a href="{% url 'marcas_editar' marca.id %}" class="btn btn-warning btn-sm" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <!-- Botón Eliminar -->
+                            <a href="{% url 'marcas_eliminar' marca.id %}" class="btn btn-danger btn-sm" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
-    <div class="card-footer">
-        <a href="{{ crear_url }}" class="btn btn-primary btn-flat">
-            <i class="fas fa-plus"></i> Nueva Marca
-        </a>
-    </div>
 </div>
 {% endblock %}
 
 {% block js %}
-<!-- DataTables -->
+<!-- DataTables JS -->
 <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
@@ -80,16 +88,26 @@
             responsive: true,
             autoWidth: false,
             language: {
-                url: "{% static 'lib/datatables-1.10.20/plugins/Spanish.json' %}"
+                url: "{% static 'lib/datatables-1.10.20/plugins/Spanish.json' %}",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "No hay registros disponibles",
+                paginate: {
+                    first: "Primero",
+                    last: "Último",
+                    next: "Siguiente",
+                    previous: "Anterior"
+                }
             },
             columnDefs: [
                 {
                     orderable: false,
-                    targets: [3] // La columna de opciones no es ordenable
+                    targets: [3] // Columna de acciones no ordenable
                 },
                 {
                     searchable: false,
-                    targets: [3] // La columna de opciones no es buscable
+                    targets: [3] // Columna de acciones no buscable
                 }
             ]
         });
