@@ -1,36 +1,113 @@
-<!-- gestion/templates/inventario/marcas/form.html -->
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<!-- Font Awesome -->
+<link rel="stylesheet" href="{% static 'lib/fontawesome-free/css/all.min.css' %}">
+<style>
+    .card-form {
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: white;
+        border-radius: 10px 10px 0 0 !important;
+        padding: 1.5rem;
+    }
+    
+    .card-title {
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #a777e3;
+        box-shadow: 0 0 0 0.2rem rgba(167, 119, 227, 0.25);
+    }
+    
+ 
+    .card-footer {
+        background: transparent;
+        border-top: none;
+        padding: 1.5rem 0 0 0;
+        display: flex;
+        gap: 10px;
+    }
+    
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="card card-default">
-    <div class="card-header">
-        <h3 class="card-title">
-            <i class="fas fa-plus"></i>
-            {{ titulo }}
-        </h3>
-    </div>
-    
-    <div class="card-body">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_nombre">Nombre:</label>
-                {{ form.nombre }}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card card-form">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-tag me-2"></i>
+                        {{ titulo }}
+                    </h3>
+                </div>
+                
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Campo Nombre -->
+                        <div class="form-group">
+                            <label for="id_nombre">Nombre de la Marca</label>
+                            <input type="text" name="nombre" class="form-control" id="id_nombre" 
+                                   placeholder="Ej: Nike, Adidas, Coca-Cola" 
+                                   value="{{ form.nombre.value|default:'' }}" required>
+                            {% if form.nombre.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.nombre.errors }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Campo Descripción -->
+                        <div class="form-group">
+                            <label for="id_descripcion">Descripción</label>
+                            <textarea name="descripcion" class="form-control" id="id_descripcion" 
+                                      placeholder="Descripción breve de la marca">{{ form.descripcion.value|default:'' }}</textarea>
+                        </div>
+                        
+                        <div class="card-footer">
+                        <button type="submit" class="btn btn-primary btn-flat">
+                        <i class="fa-solid fa-download"></i></i> Guardar
+                        </button>
+                        <a href="{{ listar_url }}" class="btn btn-danger btn-flat">
+                        <i class="fa-solid fa-rectangle-xmark"></i></i> Cancelar
+                     </a>
+                    </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="id_descripcion">Descripción:</label>
-                {{ form.descripcion }}
-            </div>
-            
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-flat">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
-                <a href="{{ listar_url }}" class="btn btn-danger btn-flat">
-                    <i class="fas fa-times"></i> Cancelar
-                </a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
 {% endblock %}

@@ -1,4 +1,3 @@
-<!-- gestion/templates/inventario/marcas/listar.html -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -9,40 +8,69 @@
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{% static 'lib/fontawesome-free/css/all.min.css' %}">
 <style>
-    .btn-group-sm > .btn, .btn-sm {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.875rem;
-        line-height: 1.5;
-        border-radius: 0.2rem;
+    .search-box {
+        margin-bottom: 20px;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
     }
-    .btn-actions {
-        white-space: nowrap;
-    }
-    .card-header {
-        display: flex;
-        justify-content: space-between;
+    .btn-action {
+        margin: 0 2px;
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
     }
+    .table-actions {
+        width: 140px;
+    }
+    
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">Lista de Marcas</h3>
-        <a href="{% url 'marcas_crear' %}" class="btn btn-success btn-sm">
-           <i class="fa-solid fa-user-plus"></i> Crear Marca
+        <h3 class="card-title">
+            <i class="fas fa-tags"></i> {{ titulo }}
+             <div class="card-footer">
+        <a href="{{ crear_url }}" class="btn btn-primary btn-flat">
+            <i class="fas fa-plus"></i> Nueva Marca
         </a>
+    </div>
+        </h3>
     </div>
     
     <div class="card-body">
-        <table id="tabla" class="table table-bordered table-striped">
-            <thead>
+        <!-- Formulario de Búsqueda -->
+        <div class="search-box">
+            <form method="get" class="form-inline">
+                <div class="input-group col-md-6">
+                    <input type="text" name="nombre" class="form-control" 
+                           placeholder="Buscar marca..." 
+                           value="{{ request.GET.nombre }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a href="{% url 'marcas_listar' %}" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt"></i> Limpiar
+                        </a>
+                    </div>
+                    
+                </div>
+            </form>
+        </div>
+        
+        <!-- Tabla de Marcas -->
+        <table id="tabla" class="table table-bordered table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    <th>Acciones</th>
+                    <th class="table-actions">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,27 +79,55 @@
                     <td>{{ marca.id }}</td>
                     <td>{{ marca.nombre }}</td>
                     <td>{{ marca.descripcion|default:"-" }}</td>
-                    <td class="btn-actions">
-                        <div class="btn-group">
-                            <!-- Botón Buscar -->
-                            <a href="{% url 'marcas_ver' marca.id %}" class="btn btn-info btn-sm" title="Ver detalles">
-                               <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <!-- Botón Editar -->
-                            <a href="{% url 'marcas_editar' marca.id %}" class="btn btn-warning btn-sm" title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <!-- Botón Eliminar -->
-                            <a href="{% url 'marcas_eliminar' marca.id %}" class="btn btn-danger btn-sm" title="Eliminar">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
+                    <td>
+                        <!-- Botón ver (Detalles) -->
+                        <a href="{% url 'marcas_ver' marca.id %}" class="btn btn-secondary btn-sm btn-action" 
+                           title="Ver detalles" data-toggle="tooltip">
+                            <i class="fa-regular fa-eye"></i>
+                        </a>
+                        <!-- Botón Editar -->
+                        <a href="{% url 'marcas_editar' marca.id %}" class="btn btn-warning btn-sm btn-action" 
+                           title="Editar" data-toggle="tooltip">
+                            <i class="fa-duotone fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <!-- Botón Eliminar -->
+                        <a href="{% url 'marcas_eliminar' marca.id %}" class="btn btn-danger btn-sm btn-action" 
+                           title="Eliminar" data-toggle="tooltip">
+                           <i class="fa-sharp fa-solid fa-trash"></i>
+                        </a>
                     </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No se encontraron marcas</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.nombre %}&nombre={{ request.GET.nombre }}{% endif %}">
+                        &laquo; Anterior
+                    </a>
+                {% endif %}
+                <span class="page-current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.nombre %}&nombre={{ request.GET.nombre }}{% endif %}">
+                        Siguiente &raquo;
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
     </div>
+    
+    
 </div>
 {% endblock %}
 
@@ -83,34 +139,25 @@
 <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
 
 <script>
-    $(function () {
-        $('#tabla').DataTable({
-            responsive: true,
-            autoWidth: false,
-            language: {
-                url: "{% static 'lib/datatables-1.10.20/plugins/Spanish.json' %}",
-                search: "Buscar:",
-                lengthMenu: "Mostrar _MENU_ registros por página",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                infoEmpty: "No hay registros disponibles",
-                paginate: {
-                    first: "Primero",
-                    last: "Último",
-                    next: "Siguiente",
-                    previous: "Anterior"
-                }
-            },
-            columnDefs: [
-                {
-                    orderable: false,
-                    targets: [3] // Columna de acciones no ordenable
-                },
-                {
-                    searchable: false,
-                    targets: [3] // Columna de acciones no buscable
-                }
-            ]
-        });
+$(function () {
+    // Inicializar DataTable
+    $('#tabla').DataTable({
+        responsive: true,
+        autoWidth: false,
+        searching: false, // Desactivar búsqueda de DataTables porque usamos nuestro propio formulario
+        language: {
+            url: "{% static 'lib/datatables-1.10.20/plugins/Spanish.json' %}"
+        },
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [3] // Columna de acciones no ordenable
+            }
+        ]
     });
+    
+    // Activar tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+});
 </script>
 {% endblock %}

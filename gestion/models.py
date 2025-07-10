@@ -29,7 +29,9 @@ class Usuario(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido} - {self.rol}"
 
-
+# --------------------------------------------
+# MODELO: CLiente
+# --------------------------------------------
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
@@ -109,22 +111,34 @@ class CheckOut(models.Model):
     metodo_pago = models.CharField(max_length=50)
     observaciones = models.TextField(null=True, blank=True)
 
-
+# --------------------------------------------
+# MODELO: Categoria
+# --------------------------------------------
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.nombre
-
-
+    
+    class Meta:
+        verbose_name = 'Categoría'
+        verbose_name_plural = 'Categorías'
+        ordering = ['nombre']
+# --------------------------------------------
+# MODELO: Marca
+# --------------------------------------------
 class Marca(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.nombre
-
+    
+    class Meta:
+        verbose_name = 'Marca'
+        verbose_name_plural = 'Marcas'
+        ordering = ['nombre']
 
 class Producto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)

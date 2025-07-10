@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}">
+<style>
+    .card-header {
+        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        color: white;
+    }
+    .btn-action {
+        margin: 0 3px;
+        min-width: 30px;
+    }
+    .search-box {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-list"></i> {{ titulo }}
+        </h3>
+    </div>
+    
+    <div class="card-body">
+        <!-- Formulario de Búsqueda -->
+        <div class="search-box">
+            <form method="get" class="form-inline">
+                <div class="input-group w-100">
+                    <input type="text" name="nombre" class="form-control" 
+                           placeholder="Buscar categorías..." 
+                           value="{{ request.GET.nombre }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-warning" type="submit">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a href="{% url 'categoria_listar' %}" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt"></i> Limpiar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Tabla de Categorías -->
+        <table id="tabla" class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in object_list %}
+                <tr>
+                    <td>{{ categoria.id }}</td>
+                    <td>{{ categoria.nombre }}</td>
+                    <td>{{ categoria.descripcion|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'categoria_editar' categoria.id %}" 
+                           class="btn btn-warning btn-action" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="#" 
+                           onclick="confirmarEliminacion('{% url 'categoria_eliminar' categoria.id %}', '{{ categoria.nombre }}')"
+                           class="btn btn-danger btn-action" title="Eliminar">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay categorías registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="card-footer">
+        <a href="{{ crear_url }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Nueva Categoría
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/sweetalert2/sweetalert2.all.min.js' %}"></script>
+
+<script>
+$(function () {
+    $('#tabla').DataTable({
+        responsive: true,
+        autoWidth: false,
+        searching: false, // Desactivamos la búsqueda de DataTables porque usamos la nuestra
+        language: {
+            url: "{% static 'lib/datatables-1.10.20/plugins/Spanish.json' %}"
+        }
+    });
+});
+
+
+{% endblock %}

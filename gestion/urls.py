@@ -1,10 +1,29 @@
 from django.urls import path
 from . import views
-from gestion.views import MarcaCreateView, MarcaDeleteView, MarcaDetailView, MarcaListView, MarcaUpdateView, tabla_clientes
+from gestion.views import CategoriaCreateView, CategoriaDeleteView, CategoriaListView, CategoriaUpdateView, MarcaCreateView, MarcaDeleteView, MarcaDetailView, MarcaListView, MarcaUpdateView, tabla_clientes
 
 urlpatterns = [
 
-
+    #-----------------------------------------------------------------------------------
+    # Marcas
+    path('marcas/ver/<int:pk>/', MarcaDetailView.as_view(), name='marcas_ver'),
+    path('marcas/marcas/', MarcaListView.as_view(), name='marcas_listar'),
+    path('marcas/crear/', MarcaCreateView.as_view(), name='marcas_crear'),
+    path('marcas/editar/<int:pk>/', MarcaUpdateView.as_view(), name='marcas_editar'),
+    path('marcas/eliminar/<int:pk>/', MarcaDeleteView.as_view(), name='marcas_eliminar'),
+    #------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------
+    # Categorias
+    path('categoria/', CategoriaListView.as_view(), name='categoria_listar'),
+    path('categoria/crear/', CategoriaCreateView.as_view(), name='categoria_crear'),
+    path('categoria/editar/<int:pk>/', CategoriaUpdateView.as_view(), name='categoria_editar'),
+    path('categoria/eliminar/<int:pk>/', CategoriaDeleteView.as_view(), name='categoria_eliminar'),
+    #------------------------------------------------------------------------------------
+    
+    
+    
+    
+    
 path('tabla/', tabla_clientes, name='tabla_clientes'),
 # Rutas CRUD para clientes
 # path('clientes/crear/', cliente_create, name='cliente_create')
@@ -40,14 +59,9 @@ path('tabla/', tabla_clientes, name='tabla_clientes'),
 
     # Inventario
     path('inventario/productos/', views.productos, name='productos'),
-    path('inventario/categorias/', views.categorias, name='categorias'),
     
-    path('marcas/ver/<int:pk>/', MarcaDetailView.as_view(), name='marcas_ver'),
-    path('marcas/marcas/', MarcaListView.as_view(), name='marcas_listar'),
-    path('marcas/crear/', MarcaCreateView.as_view(), name='marcas_crear'),
-    path('marcas/editar/<int:pk>/', MarcaUpdateView.as_view(), name='marcas_editar'),
-    path('marcas/eliminar/<int:pk>/', MarcaDeleteView.as_view(), name='marcas_eliminar'),
-
+    
+   
     # Compras
     path('compras/proveedores/', views.proveedores, name='proveedores'),
     path('compras/', views.compras, name='compras'),
