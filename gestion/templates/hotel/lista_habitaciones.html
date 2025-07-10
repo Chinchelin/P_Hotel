@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h3 class="card-title">{{ titulo }}</h3>
+        <a href="{% url 'habitacion_crear' %}" class="btn btn-success float-right">
+            <i class="fas fa-plus"></i> Nueva Habitación
+        </a>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover" id="tabla-habitaciones">
+            <thead class="bg-light">
+                <tr>
+                    <th>Número</th>
+                    <th>Tipo</th>
+                    <th>Capacidad</th>
+                    <th>Precio/Noche</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for habitacion in habitaciones %}
+                <tr>
+                    <td>{{ habitacion.numero_habitacion }}</td>
+                    <td>{{ habitacion.tipo_habitacion }}</td>
+                    <td>{{ habitacion.capacidad }} personas</td>
+                    <td>${{ habitacion.precio_noche }}</td>
+                    <td>
+                        {% if habitacion.estado == 'Disponible' %}
+                            <span class="badge bg-success text-dark">Disponible</span>
+                        {% elif habitacion.estado == 'Ocupada' %}
+                            <span class="badge bg-danger text-white">Ocupada</span>
+                        {% elif habitacion.estado == 'Mantenimiento' %}
+                            <span class="badge bg-warning text-dark">Mantenimiento</span>
+                        {% elif habitacion.estado == 'Limpieza' %}
+                            <span class="badge bg-info text-dark">Limpieza</span>
+                        {% else %}
+                            <span class="badge bg-secondary text-dark">{{ habitacion.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'habitacion_editar' habitacion.id %}" class="btn btn-sm btn-warning btn-action btn-animated mr-2" title="Editar" data-toggle="tooltip">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{% url 'habitacion_eliminar' habitacion.id %}" class="btn btn-sm btn-danger btn-action btn-animated" title="Eliminar" data-toggle="tooltip">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('#tabla-habitaciones').DataTable({
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        columnDefs: [
+            { orderable: false, targets: [5] },
+            { className: "align-middle", targets: "_all" }
+        ],
+        order: [[0, 'asc']]
+    });
+
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover',
+        placement: 'top',
+        delay: { "show": 100, "hide": 50 }
+    });
+});
+</script>
+{% endblock %}

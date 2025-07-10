@@ -27,6 +27,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third-party apps
+    'widget_tweaks',  # Para mejor personalización de formularios
+    
+    # Local apps
     'gestion',  # App principal
 ]
 
@@ -71,6 +76,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                # Context processors personalizados (si los tienes)
+                # 'gestion.context_processors.configuracion_general',
+            ],
+            'builtins': [
+                'widget_tweaks.templatetags.widget_tweaks',  # Para usar widget_tweaks en templates
             ],
         },
     },
@@ -99,6 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,  # Longitud mínima de contraseña
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -117,6 +131,7 @@ LANGUAGE_CODE = 'es-co'        # Español de Colombia
 TIME_ZONE = 'America/Bogota'   # Zona horaria colombiana
 
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
 
@@ -130,9 +145,48 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'gestion', 'static'),
 ]
 
+# Configuración para producción (opcional)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# =====================
+# Configuración de autenticación
+# =====================
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/panel/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+# =====================
+# Configuración de sesión
+# =====================
+
+SESSION_COOKIE_AGE = 86400  # 1 día en segundos
+SESSION_SAVE_EVERY_REQUEST = True
+
 
 # =====================
 # Configuración extra
 # =====================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configuración para emails (opcional, necesario para recuperación de contraseñas)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Solo para desarrollo
+# EMAIL_HOST = 'smtp.tudominio.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'tu@email.com'
+# EMAIL_HOST_PASSWORD = 'tupassword'
+
+# Configuración de DataTables (opcional)
+DATA_TABLES_DEFAULT_CONFIG = {
+    'responsive': True,
+    'language': {
+        'url': '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+    }
+}

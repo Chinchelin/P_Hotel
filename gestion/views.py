@@ -1,136 +1,192 @@
 from django.shortcuts import render
-from .models import Cliente
-
-
-def tabla_clientes(request):
-    clientes = Cliente.objects.all()
-    return render(request, 'clientes/tabla_clientes.html', {'clientes': clientes})
-
-# Vista para listar clientes
-# Vista para crear nuevo cliente
-# Vista para editar cliente existente
-# Vista para eliminar cliente
-# Vista para ver detalles de un cliente
-
-
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .models import Usuario, Habitacion, Capacitacion
+from .forms import UsuarioForm, HabitacionForm, CapacitacionForm
 
 # ===============================
-# Página pública y Login
+# Vistas básicas (funciones)
 # ===============================
-
 def pagina(request):
+    """Vista para la página de inicio pública"""
     return render(request, 'pagina/pagina.html')
 
 def login(request):
+    """Vista para el login"""
     return render(request, 'login/login.html')
 
-
-# ===============================
-# Panel de administración
-# ===============================
-
 def panel_control(request):
+    """Vista para el panel de control"""
     return render(request, 'panel/panelcontrol.html')
 
-
-# ===============================
-# Usuarios y asignaciones
-# ===============================
-
-def usuarios(request):
-    return render(request, 'usuarios/usuarios.html')
-
-def asignaciones(request):
-    return render(request, 'usuarios/asignaciones.html')
-
-
-# ===============================
-# Clientes
-# ===============================
-
 def clientes(request):
+    """Vista para la sección de clientes"""
     return render(request, 'clientes/clientes.html')
 
-
-# ===============================
-# Hotel: habitaciones, reservas, checkins/outs
-# ===============================
-
-def habitaciones(request):
-    return render(request, 'hotel/habitaciones.html')
+def tabla_clientes(request):
+    """Vista para la tabla de clientes"""
+    return render(request, 'clientes/tabla_clientes.html')
 
 def reservas(request):
-    return render(request, 'hotel/reservas/reservas.html')
-
-def detalle_reservas(request):
-    return render(request, 'hotel/reservas/detalle_reservas.html')
-
-def checkins(request):
-    return render(request, 'hotel/checkins.html')
-
-def checkouts(request):
-    return render(request, 'hotel/checkouts.html')
-
+    """Vista para reservas"""
+    return render(request, 'reservas/reservas.html')
 
 # ===============================
-# Inventario
+# Vistas para Usuarios (clases)
 # ===============================
+class UsuarioListView(ListView):
+    model = Usuario
+    template_name = 'usuarios/lista_usuarios.html'
+    context_object_name = 'usuarios'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Listado de Usuarios'
+        context['crear_url'] = reverse_lazy('usuario_crear')
+        context['entidad'] = 'Usuarios'
+        return context
 
-def productos(request):
-    return render(request, 'inventario/productos.html')
+class UsuarioCreateView(CreateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/form_usuario.html'
+    success_url = reverse_lazy('usuario_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Crear Nuevo Usuario'
+        context['listar_url'] = reverse_lazy('usuario_lista')
+        context['entidad'] = 'Usuarios'
+        return context
 
-def categorias(request):
-    return render(request, 'inventario/categorias.html')
+class UsuarioUpdateView(UpdateView):
+    model = Usuario
+    form_class = UsuarioForm
+    template_name = 'usuarios/form_usuario.html'
+    success_url = reverse_lazy('usuario_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Editar Usuario'
+        context['listar_url'] = reverse_lazy('usuario_lista')
+        context['entidad'] = 'Usuarios'
+        return context
 
-def marcas(request):
-    return render(request, 'inventario/marcas.html')
-
-
-# ===============================
-# Compras
-# ===============================
-
-def proveedores(request):
-    return render(request, 'compras/proveedores.html')
-
-def compras(request):
-    return render(request, 'compras/compras.html')
-
-def detalle_compras(request):
-    return render(request, 'compras/detalle_compras.html')
-
-
-# ===============================
-# Ventas
-# ===============================
-
-def ventas(request):
-    return render(request, 'ventas/ventas.html')
-
-def detalle_ventas(request):
-    return render(request, 'ventas/detalle_ventas.html')
-
-def facturas(request):
-    return render(request, 'ventas/facturas.html')
-
-
-# ===============================
-# Tareas y Capacitaciones
-# ===============================
-
-def tareas(request):
-    return render(request, 'tareas/tareas.html')
-
-def capacitaciones(request):
-    return render(request, 'capacitaciones/capacitaciones.html')
-
-def asistencias(request):
-    return render(request, 'capacitaciones/asistencias.html')
-
+class UsuarioDeleteView(DeleteView):
+    model = Usuario
+    template_name = 'usuarios/eliminar_usuario.html'
+    success_url = reverse_lazy('usuario_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Eliminar Usuario'
+        context['listar_url'] = reverse_lazy('usuario_lista')
+        context['entidad'] = 'Usuarios'
+        return context
 
 # ===============================
-# Reportes
+# Vistas para Habitaciones (clases)
 # ===============================
+class HabitacionListView(ListView):
+    model = Habitacion
+    template_name = 'hotel/lista_habitaciones.html'
+    context_object_name = 'habitaciones'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Listado de Habitaciones'
+        context['crear_url'] = reverse_lazy('habitacion_crear')
+        context['entidad'] = 'Habitaciones'
+        return context
 
-def reportes(request):
-    return render(request, 'reportes/reportes.html')
+class HabitacionCreateView(CreateView):
+    model = Habitacion
+    form_class = HabitacionForm
+    template_name = 'hotel/form_habitacion.html'
+    success_url = reverse_lazy('habitacion_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Crear Nueva Habitación'
+        context['listar_url'] = reverse_lazy('habitacion_lista')
+        context['entidad'] = 'Habitaciones'
+        return context
+
+class HabitacionUpdateView(UpdateView):
+    model = Habitacion
+    form_class = HabitacionForm
+    template_name = 'hotel/form_habitacion.html'
+    success_url = reverse_lazy('habitacion_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Editar Habitación'
+        context['listar_url'] = reverse_lazy('habitacion_lista')
+        context['entidad'] = 'Habitaciones'
+        return context
+
+class HabitacionDeleteView(DeleteView):
+    model = Habitacion
+    template_name = 'hotel/eliminar_habitacion.html'
+    success_url = reverse_lazy('habitacion_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Eliminar Habitación'
+        context['listar_url'] = reverse_lazy('habitacion_lista')
+        context['entidad'] = 'Habitaciones'
+        return context
+
+# ===============================
+# Vistas para Capacitaciones (clases)
+# ===============================
+class CapacitacionListView(ListView):
+    model = Capacitacion
+    template_name = 'capacitaciones/lista_capacitaciones.html'
+    context_object_name = 'capacitaciones'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Listado de Capacitaciones'
+        context['crear_url'] = reverse_lazy('capacitacion_crear')
+        context['entidad'] = 'Capacitaciones'
+        context['campos'] = ['nombre', 'fecha_inicio', 'fecha_finalizacion', 'descripcion']
+        return context
+
+class CapacitacionCreateView(CreateView):
+    model = Capacitacion
+    form_class = CapacitacionForm
+    template_name = 'capacitaciones/form_capacitacion.html'
+    success_url = reverse_lazy('capacitacion_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Crear Nueva Capacitación'
+        context['listar_url'] = reverse_lazy('capacitacion_lista')
+        context['entidad'] = 'Capacitaciones'
+        return context
+
+class CapacitacionUpdateView(UpdateView):
+    model = Capacitacion
+    form_class = CapacitacionForm
+    template_name = 'capacitaciones/form_capacitacion.html'
+    success_url = reverse_lazy('capacitacion_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Editar Capacitación'
+        context['listar_url'] = reverse_lazy('capacitacion_lista')
+        context['entidad'] = 'Capacitaciones'
+        return context
+
+class CapacitacionDeleteView(DeleteView):
+    model = Capacitacion
+    template_name = 'capacitaciones/eliminar_capacitacion.html'
+    success_url = reverse_lazy('capacitacion_lista')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = 'Eliminar Capacitación'
+        context['listar_url'] = reverse_lazy('capacitacion_lista')
+        context['entidad'] = 'Capacitaciones'
+        return context

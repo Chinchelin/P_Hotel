@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    /* Animaciones para los botones de acción */
+    .btn-action {
+        transition: all 0.3s ease;
+        position: relative;
+        width: 36px;
+        text-align: center;
+    }
+    
+    /* Animación especial para el botón de editar (lápiz) */
+    .btn-warning.btn-animated:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+    }
+    .btn-warning.btn-animated:hover i {
+        animation: pencil-write 0.6s ease;
+    }
+    
+    /* Animación especial para el botón de eliminar (basurera) */
+    .btn-danger.btn-animated:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 8px rgba(220, 53, 69, 0.6);
+    }
+    .btn-danger.btn-animated:hover i {
+        animation: trash-shake 0.5s ease;
+    }
+    
+    /* Definición de las animaciones */
+    @keyframes pencil-write {
+        0%, 100% { transform: rotate(0) translateY(0); }
+        25% { transform: rotate(-10deg) translateY(-2px); }
+        50% { transform: rotate(0) translateY(-4px); }
+        75% { transform: rotate(10deg) translateY(-2px); }
+    }
+    
+    @keyframes trash-shake {
+        0%, 100% { transform: translateX(0) rotate(0); }
+        20% { transform: translateX(-2px) rotate(-5deg); }
+        40% { transform: translateX(2px) rotate(5deg); }
+        60% { transform: translateX(-2px) rotate(-5deg); }
+        80% { transform: translateX(2px) rotate(5deg); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h3 class="card-title">
+            <i class="fas fa-chalkboard-teacher"></i> {{ titulo }}
+        </h3>
+        <a href="{% url 'capacitacion_crear' %}" class="btn btn-success float-right">
+            <i class="fas fa-plus"></i> Nueva Capacitación
+        </a>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover" id="tabla-capacitaciones">
+            <thead class="bg-light">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Descripción</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for capacitacion in capacitaciones %}
+                <tr>
+                    <td>{{ capacitacion.nombre }}</td>
+                    <td>{{ capacitacion.fecha_inicio|date:"d/m/Y" }}</td>
+                    <td>{{ capacitacion.fecha_finalizacion|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if capacitacion.descripcion %}
+                            <span data-toggle="tooltip" title="{{ capacitacion.descripcion }}">
+                                {{ capacitacion.descripcion|truncatechars:40 }}
+                            </span>
+                        {% else %}
+                            <span class="text-muted">Sin descripción</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <!-- Botón Editar con animación de lápiz escribiendo -->
+                            <a href="{% url 'capacitacion_editar' capacitacion.id %}" 
+                               class="btn btn-sm btn-warning btn-action btn-animated mr-2" 
+                               title="Editar"
+                               data-toggle="tooltip">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            
+                            <!-- Botón Eliminar con animación de basurera moviéndose -->
+                            <a href="{% url 'capacitacion_eliminar' capacitacion.id %}" 
+                               class="btn btn-sm btn-danger btn-action btn-animated" 
+                               title="Eliminar"
+                               data-toggle="tooltip">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay capacitaciones registradas</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Inicializar DataTable con configuración mejorada
+    $('#tabla-capacitaciones').DataTable({
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+        },
+        columnDefs: [
+            { 
+                orderable: false, 
+                targets: [3, 4] // Descripción y Acciones no ordenables
+            },
+            { 
+                width: "120px",
+                targets: [4] // Ancho fijo para columna de acciones
+            },
+            {
+                className: "align-middle",
+                targets: "_all" // Alineación vertical media en todas las celdas
+            }
+        ],
+        order: [[1, 'asc']], // Ordenar por fecha de inicio por defecto
+        dom: '<"top"f>rt<"bottom"lip><"clear">', // Mejor disposición de controles
+        pageLength: 10 // Mostrar 10 registros por página
+    });
+
+    // Activar tooltips con configuración mejorada
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger: 'hover',
+        placement: 'top',
+        delay: { "show": 100, "hide": 50 }
+    });
+});
+</script>
+{% endblock %}

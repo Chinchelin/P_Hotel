@@ -9,6 +9,9 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
 
+  <!-- Font Awesome para íconos (pencil, trash, etc.) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="{% static 'css/estilo_base.css' %}">
 
@@ -23,18 +26,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-center" id="navbarContenido">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link" href="{% url 'pagina' %}">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Servicios</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'tabla_clientes' %}">CLiente Tabla</a></li>
-      </ul>
-    </div>
+    <!-- Enlaces del navbar -->
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item"><a class="nav-link" href="{% url 'pagina' %}">Inicio</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'usuario_lista' %}">Usuarios</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'habitacion_lista' %}">Habitaciones</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'capacitacion_lista' %}">Capacitaciones</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'tabla_clientes' %}">Clientes</a></li>
+    </ul>
   </div>
 </nav>
-
 
 <main class="container py-5">
   {% block content %}{% endblock %}
@@ -47,7 +48,7 @@
   </div>
 </footer>
 
-<!-- JS -->
+<!-- Scripts -->
 <script src="{% static 'plugins/jquery/jquery.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

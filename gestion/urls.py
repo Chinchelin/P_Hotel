@@ -1,63 +1,37 @@
 from django.urls import path
 from . import views
-from gestion.views import tabla_clientes
+from .views import (
+    UsuarioListView, UsuarioCreateView, UsuarioUpdateView, UsuarioDeleteView,
+    HabitacionListView, HabitacionCreateView, HabitacionUpdateView, HabitacionDeleteView,
+    CapacitacionListView, CapacitacionCreateView, CapacitacionUpdateView, CapacitacionDeleteView
+)
 
 urlpatterns = [
-
-
-path('tabla/', tabla_clientes, name='tabla_clientes'),
-# Rutas CRUD para clientes
-# path('clientes/crear/', cliente_create, name='cliente_create')
-# path('clientes/<int:id>/editar/', cliente_update, name='cliente_update')
-# etc.
-
-
-
-
-
-
-
-    # Página principal y login
+    # Páginas básicas
     path('', views.pagina, name='pagina'),
     path('login/', views.login, name='login'),
-
-    # Panel de control
-    path('panelcontrol/', views.panel_control, name='panelcontrol'),
-
-    # Usuarios
-    path('usuarios/', views.usuarios, name='usuarios'),
-    path('usuarios/asignaciones/', views.asignaciones, name='asignaciones'),
-
-    # Clientes
-    path('clientes/', views.clientes, name='clientes'),
-
-    # Hotel
-    path('hotel/habitaciones/', views.habitaciones, name='habitaciones'),
-    path('hotel/reservas/', views.reservas, name='reservas'),
-    path('hotel/reservas/detalle/', views.detalle_reservas, name='detalle_reservas'),
-    path('hotel/checkins/', views.checkins, name='checkins'),
-    path('hotel/checkouts/', views.checkouts, name='checkouts'),
-
-    # Inventario
-    path('inventario/productos/', views.productos, name='productos'),
-    path('inventario/categorias/', views.categorias, name='categorias'),
-    path('inventario/marcas/', views.marcas, name='marcas'),
-
-    # Compras
-    path('compras/proveedores/', views.proveedores, name='proveedores'),
-    path('compras/', views.compras, name='compras'),
-    path('compras/detalle/', views.detalle_compras, name='detalle_compras'),
-
-    # Ventas
-    path('ventas/', views.ventas, name='ventas'),
-    path('ventas/detalle/', views.detalle_ventas, name='detalle_ventas'),
-    path('ventas/facturas/', views.facturas, name='facturas'),
-
-    # Tareas y Capacitaciones
-    path('gestion/tareas/', views.tareas, name='tareas'),
-    path('gestion/capacitaciones/', views.capacitaciones, name='capacitaciones'),
-    path('gestion/asistencias/', views.asistencias, name='asistencias'),
-
-    # Reportes
-    path('reportes/', views.reportes, name='reportes'),
+    path('panel/', views.panel_control, name='panel_control'),
+    
+    # URLs para Usuarios
+    path('usuarios/', UsuarioListView.as_view(), name='usuario_lista'),
+    path('usuarios/crear/', UsuarioCreateView.as_view(), name='usuario_crear'),
+    path('usuarios/editar/<int:pk>/', UsuarioUpdateView.as_view(), name='usuario_editar'),
+    path('usuarios/eliminar/<int:pk>/', UsuarioDeleteView.as_view(), name='usuario_eliminar'),
+    
+    # URLs para Habitaciones
+    path('habitaciones/', HabitacionListView.as_view(), name='habitacion_lista'),
+    path('habitaciones/crear/', HabitacionCreateView.as_view(), name='habitacion_crear'),
+    path('habitaciones/editar/<int:pk>/', HabitacionUpdateView.as_view(), name='habitacion_editar'),
+    path('habitaciones/eliminar/<int:pk>/', HabitacionDeleteView.as_view(), name='habitacion_eliminar'),
+    
+    # URLs para Capacitaciones
+    path('capacitaciones/', CapacitacionListView.as_view(), name='capacitacion_lista'),
+    path('capacitaciones/crear/', CapacitacionCreateView.as_view(), name='capacitacion_crear'),
+    path('capacitaciones/editar/<int:pk>/', CapacitacionUpdateView.as_view(), name='capacitacion_editar'),
+    path('capacitaciones/eliminar/<int:pk>/', CapacitacionDeleteView.as_view(), name='capacitacion_eliminar'),
+    
+    # Otras URLs existentes...
+    path('clientes/tabla/', views.tabla_clientes, name='tabla_clientes'),
+    path('reservas/', views.reservas, name='reservas'),
+    
 ]

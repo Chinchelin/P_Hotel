@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h3 class="card-title">{{ titulo }}</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.numero_habitacion.id_for_label }}" class="form-label">Número de Habitación</label>
+                    {{ form.numero_habitacion }}
+                    {% if form.numero_habitacion.errors %}
+                    <div class="text-danger">{{ form.numero_habitacion.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.tipo_habitacion.id_for_label }}" class="form-label">Tipo de Habitación</label>
+                    {{ form.tipo_habitacion }}
+                    {% if form.tipo_habitacion.errors %}
+                    <div class="text-danger">{{ form.tipo_habitacion.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.capacidad.id_for_label }}" class="form-label">Capacidad</label>
+                    {{ form.capacidad }}
+                    {% if form.capacidad.errors %}
+                    <div class="text-danger">{{ form.capacidad.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.precio_noche.id_for_label }}" class="form-label">Precio por Noche</label>
+                    {{ form.precio_noche }}
+                    {% if form.precio_noche.errors %}
+                    <div class="text-danger">{{ form.precio_noche.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="{{ form.estado.id_for_label }}" class="form-label">Estado</label>
+                    {{ form.estado }}
+                    {% if form.estado.errors %}
+                    <div class="text-danger">{{ form.estado.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="{{ form.descripcion.id_for_label }}" class="form-label">Descripción</label>
+                    {{ form.descripcion }}
+                    {% if form.descripcion.errors %}
+                    <div class="text-danger">{{ form.descripcion.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'habitacion_lista' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
