@@ -208,15 +208,22 @@ def facturas(request):
 
 
 # ===============================
-# Tareas y Capacitaciones
+# Tareas
 # ===============================
-
 def tareas(request):
     return render(request, 'tareas/tareas.html')
 
+
+
+# ===============================
+# Capacitaciones
+# ===============================
+
 def capacitaciones(request):
     return render(request, 'capacitaciones/capacitaciones.html')
-
+#================================
+# Asistencias
+#================================
 def asistencias(request):
     return render(request, 'capacitaciones/asistencias.html')
 

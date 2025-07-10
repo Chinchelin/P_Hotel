@@ -1,0 +1,699 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Panel de Control{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Hotelero</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Bubbles Background -->
+    <div class="floating-bubbles" id="bubbles"></div>
+    
+    <div class="dashboard">
+        <!-- ACÀ VA TODO LO REFERENTE A LA VISTA DEL PANEL DE CONTROL -->
+        <div class="sidebar animate__animated animate__fadeInLeft">
+            <div class="sidebar-header">
+                <h2>Hotel Plaza Real </h2>
+                <p>Sistema de Gestión del Hotel</p>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-category">Principal</div>
+                <div class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </div>
+                
+                <div class="menu-category">Gestión Hotelera</div>
+                <div class="menu-category">RESERVAS</div>
+                
+                <a href="reserva.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Reservas</span>
+                </a>
+                <a href="detalle_reservas.html" class="menu-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>detalle eservas</span>
+                </a>
+                
+                <a href="habitaciones.html" class="menu-item">
+                    <i class="fas fa-bed"></i>
+                    <span>Habitaciones</span>
+                </a>
+
+                <a href="checkin.html" class="menu-item">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Check-In</span>
+                </a>
+                
+                <a href="checkout.html" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Check-Out</span>
+                </a>
+                
+                <div class="menu-item" data-section="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes y Análisis</span>
+                </div>
+                
+                <a href="{% url 'tabla_clientes' %}" class="menu-item" data-section="clients">
+                    <i class="fas fa-users"></i>
+                    <span>Datos del Cliente</span>
+                </a>
+                <div class="menu-category">Inventario</div>
+                <div class="menu-item" data-section="products">
+                    <i class="fas fa-box-open"></i>
+                    <span>Productos</span>
+                </div>
+                
+                <div class="menu-item" data-section="brands">
+                    <i class="fas fa-tag"></i>
+                    <span>Marcas</span>
+                </div>
+                
+                <a href="{% url 'tabla_proveedores' %}" class="menu-item">
+                    <i class="fas fa-truck"></i>
+                    <span>Proveedores</span>
+                </a>
+                
+                <div class="menu-category">Personal</div>
+                <div class="menu-item" data-section="training">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Capacitación</span>
+                </div>
+                
+                <a href="ventas.html" class="menu-item" data-section="sales">
+                    <i class="fas fa-cash-register"></i>
+                    <span>Ventas</span>
+                </a>
+                 <a href="tareas.html" class="menu-item" data-section="sales">
+                    <i class="fas fa-cash-register"></i>
+                    <span>tareas</span>
+                </a>
+
+                <a href="factura.html" class="menu-item" data-section="billing" id="facturaLink">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Facturas</span>
+                    <span class="badge bg-warning" id="pendingInvoices"></span>
+                </a>
+            </div>
+        </div>
+        <!-- ACA VA TODO EL CONTENIDO PRINCIPAL -->
+        <!-- Main Content -->
+        <div class="main-content animate__animated animate__fadeIn">
+            <!-- ENCABEZADO -->
+            <div class="header">
+                <div class="header-title">
+                    <h1>Panel de Control</h1>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">US</div>
+                        <div class="user-name">USUARIOS</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECCION DEL DASHBOARD -->
+            <div class="form-section active" id="dashboardSection">
+                <!-- Dashboard Widgets -->
+                <div class="dashboard-widgets">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Reservas Hoy</div>
+                            <div class="widget-icon">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                        </div>
+                        <div class="widget-value">24</div>
+                        <div class="widget-description">+3 desde ayer</div>
+                    </div>
+                    
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Habitaciones Ocupadas</div>
+                            <div class="widget-icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                        </div>
+                        <div class="widget-value">68%</div>
+                        <div class="widget-description">42 de 62 habitaciones</div>
+                    </div>
+                    
+                    <div class="widget pulse" style="background: linear-gradient(135deg, #FFF, #FFF8E1);">
+                        <div class="widget-header">
+                            <div class="widget-title">Check-Ins Pendientes</div>
+                            <div class="widget-icon">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </div>
+                        </div>
+                        <div class="widget-value" style="color: var(--secondary);">8</div>
+                        <div class="widget-description">Por atender hoy</div>
+                    </div>
+                    
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Ingresos Hoy</div>
+                            <div class="widget-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="widget-value">$3,450</div>
+                        <div class="widget-description">+12% desde ayer</div>
+                    </div>
+                </div>
+                
+                <!-- ACTIVIDAD RECIENTE DEL DASHBOARD -->
+                <div class="recent-activity">
+                    <div class="section-header">
+                        <h3 class="section-title">Actividad Reciente</h3>
+                        <a href="#" style="color: var(--primary-dark); font-size: 0.9rem;">Ver todo</a>
+                    </div>
+                    
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <div class="activity-content">
+                                <div class="activity-time">Hace 5 minutos</div>
+                                <span class="activity-user">María González</span> realizó una nueva reserva (#1245)
+                            </div>
+                        </li>
+                        
+                        <li class="activity-item">
+                            <div class="activity-content">
+                                <div class="activity-time">Hace 23 minutos</div>
+                                <span class="activity-user">Carlos Mendoza</span> completó el check-in en habitación 204
+                            </div>
+                        </li>
+                        
+                        <li class="activity-item">
+                            <div class="activity-content">
+                                <div class="activity-time">Hace 1 hora</div>
+                                Nueva factura generada (#F-2023-0568) por <span class="activity-user">$320</span>
+                            </div>
+                        </li>
+                        
+                        <li class="activity-item">
+                            <div class="activity-content">
+                                <div class="activity-time">Hace 2 horas</div>
+                                <span class="activity-user">Ana López</span> actualizó el inventario de productos
+                            </div>
+                        </li>
+                        
+                        <li class="activity-item">
+                            <div class="activity-content">
+                                <div class="activity-time">Hace 3 horas</div>
+                                Tarea completada: <span class="activity-user">Limpieza de habitaciones</span> en el piso 3
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SECCION DE REPORTES -->
+            <div class="form-section" id="reportsSection">
+                <h2 class="form-title"><i class="fas fa-chart-bar"></i> Reportes y Análisis</h2>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="reportType">Tipo de Reporte</label>
+                        <select id="reportType" class="form-control">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="occupancy">Ocupación Hotelera</option>
+                            <option value="revenue">Ingresos y Ganancias</option>
+                            <option value="reservations">Reservas por Temporada</option>
+                            <option value="expenses">Gastos Operacionales</option>
+                            <option value="client">Análisis de Clientes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reportDateFrom">Fecha Desde</label>
+                        <input type="date" id="reportDateFrom" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reportDateTo">Fecha Hasta</label>
+                        <input type="date" id="reportDateTo" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reportFilters">Filtros Adicionales</label>
+                    <textarea id="reportFilters" class="form-control" placeholder="Especificar filtros adicionales..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancelar</button>
+                    <button class="btn btn-primary">Generar Reporte</button>
+                </div>
+                
+                <!-- RESULTADOS DE REPORTES -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">Resultados del Reporte</h3>
+                    <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow);">
+                        <p style="text-align: center; color: #777; font-style: italic;">
+                            Seleccione los parámetros y genere un reporte para visualizar los datos
+                        </p>
+                        <!-- Aquí irían los gráficos o tablas de resultados -->
+                    </div>
+                </div>
+                
+                <!-- TEMPLATE DE REPORTES -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">Plantillas de Reporte</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Última Generación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reporte Mensual Ocupación</td>
+                                <td>Ocupación</td>
+                                <td>15/Nov/2023</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-eye"></i> Ver</button>
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-download"></i> Descargar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Análisis de Temporada Alta</td>
+                                <td>Reservas</td>
+                                <td>10/Oct/2023</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-eye"></i> Ver</button>
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-download"></i> Descargar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gastos Q3 2023</td>
+                                <td>Gastos</td>
+                                <td>30/Sep/2023</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-eye"></i> Ver</button>
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-download"></i> Descargar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- SECCION DE PRODUCTOS -->
+            <div class="form-section" id="productsSection">
+                <h2 class="form-title"><i class="fas fa-box-open"></i> Gestión de Productos</h2>
+                
+                <div class="form-actions" style="justify-content: flex-start; margin-bottom: 20px;">
+                    <button class="btn btn-primary" id="addProductBtn">
+                        <i class="fas fa-plus"></i> Agregar Producto
+                    </button>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="productCode">Código del Producto</label>
+                        <input type="text" id="productCode" class="form-control" placeholder="Ej: PROD-001">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productName">Nombre del Producto</label>
+                        <input type="text" id="productName" class="form-control" placeholder="Ej: Toallas de Baño">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productBrand">Marca</label>
+                        <select id="productBrand" class="form-control">
+                            <option value="">Seleccione una marca</option>
+                            <option value="1">Hilton</option>
+                            <option value="2">Marriott</option>
+                            <option value="3">Sheraton</option>
+                            <option value="4">Local</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productCategory">Categoría</label>
+                        <select id="productCategory" class="form-control">
+                            <option value="">Seleccione una categoría</option>
+                            <option value="1">Limpieza</option>
+                            <option value="2">Baño</option>
+                            <option value="3">Cocina</option>
+                            <option value="4">Decoración</option>
+                            <option value="5">Electrónicos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productPrice">Precio Unitario</label>
+                        <input type="number" id="productPrice" class="form-control" placeholder="Ej: 12.99" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productStock">Stock Actual</label>
+                        <input type="number" id="productStock" class="form-control" placeholder="Ej: 100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productMinStock">Stock Mínimo</label>
+                        <input type="number" id="productMinStock" class="form-control" placeholder="Ej: 20">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productSupplier">Proveedor</label>
+                        <select id="productSupplier" class="form-control">
+                            <option value="">Seleccione un proveedor</option>
+                            <option value="1">Distribuidora ABC</option>
+                            <option value="2">Suministros XYZ</option>
+                            <option value="3">Mayorista 123</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productDescription">Descripción</label>
+                    <textarea id="productDescription" class="form-control" placeholder="Descripción detallada del producto..."></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancelar</button>
+                    <button class="btn btn-primary">Guardar Producto</button>
+                </div>
+                
+                <!-- LISTA DE PRODUCTOS -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">Inventario de Productos</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Marca</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PROD-001</td>
+                                <td>Toallas de Baño</td>
+                                <td>Hilton</td>
+                                <td>$12.99</td>
+                                <td>85</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PROD-002</td>
+                                <td>Jabón de Baño</td>
+                                <td>Marriott</td>
+                                <td>$2.50</td>
+                                <td>120</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PROD-003</td>
+                                <td>Juego de Sábanas</td>
+                                <td>Sheraton</td>
+                                <td>$35.00</td>
+                                <td>42</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PROD-004</td>
+                                <td>Champú</td>
+                                <td>Local</td>
+                                <td>$5.75</td>
+                                <td>68</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- SECCION DE CAPACITACIONES -->
+            <div class="form-section" id="trainingSection">
+                <h2 class="form-title"><i class="fas fa-graduation-cap"></i> Capacitación del Personal</h2>
+                
+                <div class="form-actions" style="justify-content: flex-start; margin-bottom: 20px;">
+                    <button class="btn btn-primary" id="addTrainingBtn">
+                        <i class="fas fa-plus"></i> Programar Capacitación
+                    </button>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="trainingTitle">Título de la Capacitación</label>
+                        <input type="text" id="trainingTitle" class="form-control" placeholder="Ej: Atención al Cliente Avanzada">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trainingType">Tipo de Capacitación</label>
+                        <select id="trainingType" class="form-control">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="customer">Atención al Cliente</option>
+                            <option value="technical">Técnica</option>
+                            <option value="safety">Seguridad</option>
+                            <option value="hygiene">Higiene</option>
+                            <option value="management">Gestión</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trainingDate">Fecha</label>
+                        <input type="date" id="trainingDate" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trainingTime">Hora</label>
+                        <input type="time" id="trainingTime" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trainingTrainer">Instructor</label>
+                        <input type="text" id="trainingTrainer" class="form-control" placeholder="Nombre del instructor">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trainingDuration">Duración (horas)</label>
+                        <input type="number" id="trainingDuration" class="form-control" placeholder="Ej: 2">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trainingDescription">Descripción</label>
+                    <textarea id="trainingDescription" class="form-control" placeholder="Descripción detallada de la capacitación..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trainingParticipants">Participantes</label>
+                    <select id="trainingParticipants" class="form-control" multiple>
+                        <option value="1">Juan Pérez (Recepcionista)</option>
+                        <option value="2">María Gómez (Limpieza)</option>
+                        <option value="3">Carlos Ruiz (Administrador)</option>
+                        <option value="4">Ana López (Recepcionista)</option>
+                        <option value="5">Pedro Martínez (Limpieza)</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancelar</button>
+                    <button class="btn btn-primary">Programar Capacitación</button>
+                </div>
+                
+                <!-- LISTA DE CAPACITACIONES -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">Capacitaciones Programadas</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Instructor</th>
+                                <th>Participantes</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Atención al Cliente Avanzada</td>
+                                <td>Atención al Cliente</td>
+                                <td>25/Nov/2023</td>
+                                <td>Laura Fernández</td>
+                                <td>5</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Protocolos de Limpieza</td>
+                                <td>Higiene</td>
+                                <td>30/Nov/2023</td>
+                                <td>Carlos Mendoza</td>
+                                <td>8</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Uso de Nuevo Sistema</td>
+                                <td>Técnica</td>
+                                <td>05/Dic/2023</td>
+                                <td>David Rodríguez</td>
+                                <td>12</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- SECCION DE MARCAS -->
+            <div class="form-section" id="brandsSection">
+                <h2 class="form-title"><i class="fas fa-tag"></i> Gestión de Marcas</h2>
+                
+                <div class="form-actions" style="justify-content: flex-start; margin-bottom: 20px;">
+                    <button class="btn btn-primary" id="addBrandBtn">
+                        <i class="fas fa-plus"></i> Agregar Marca
+                    </button>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="brandName">Nombre de la Marca</label>
+                        <input type="text" id="brandName" class="form-control" placeholder="Ej: Marriott">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brandCountry">País de Origen</label>
+                        <input type="text" id="brandCountry" class="form-control" placeholder="Ej: Estados Unidos">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brandWebsite">Sitio Web</label>
+                        <input type="url" id="brandWebsite" class="form-control" placeholder="Ej: https://www.marriott.com">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brandDescription">Descripción</label>
+                    <textarea id="brandDescription" class="form-control" placeholder="Descripción de la marca..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brandLogo">Logo</label>
+                    <input type="file" id="brandLogo" class="form-control">
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancelar</button>
+                    <button class="btn btn-primary">Guardar Marca</button>
+                </div>
+                
+                <!-- Lista de Marcas -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; color: var(--dark);">Marcas Registradas</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>País</th>
+                                <th>Productos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hilton</td>
+                                <td>Estados Unidos</td>
+                                <td>15</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Marriott</td>
+                                <td>Estados Unidos</td>
+                                <td>22</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sheraton</td>
+                                <td>Estados Unidos</td>
+                                <td>18</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Local</td>
+                                <td>Colombia</td>
+                                <td>35</td>
+                                <td class="table-actions">
+                                    <button class="table-btn table-btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="table-btn table-btn-delete"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

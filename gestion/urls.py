@@ -67,6 +67,7 @@ path('clientes/eliminar/<int:pk>/', ClienteDeleteView.as_view(), name='cliente_e
 
     # Tareas y Capacitaciones
     path('gestion/tareas/', views.tareas, name='tareas'),
+    
     path('gestion/capacitaciones/', views.capacitaciones, name='capacitaciones'),
     path('gestion/asistencias/', views.asistencias, name='asistencias'),
 
