@@ -2,20 +2,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     const bubblesContainer = document.getElementById('bubbles');
     
-    // Generate 15 random bubbles
+     //BURBUJAS
     for (let i = 0; i < 15; i++) {
         const bubble = document.createElement('div');
         bubble.classList.add('bubble');
         
-        // Random size between 10px and 100px
+        // EL SIZE
         const size = Math.random() * 90 + 10;
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         
-        // Random horizontal position
+        // EL RAMDOM POSITION
         bubble.style.left = `${Math.random() * 100}%`;
         
-        // Random animation duration (10-30 seconds)
+        //ANIMACION DEL RANDOM (10-30 seconds)
         const duration = Math.random() * 20 + 10;
         bubble.style.animationDuration = `${duration}s`;
         

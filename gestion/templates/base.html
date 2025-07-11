@@ -32,9 +32,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Servicios</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'tabla_clientes' %}">CLiente Tabla</a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tabla_proveedores' %}">Proveedores</a>
+       
         </li>
       </ul>
     </div>
@@ -45,12 +43,7 @@
   {% block content %}{% endblock %}
 </main>
 
-<footer class="text-center py-4 mt-5">
-  <div class="container">
-    <p class="mb-1">&copy; 2025 Hotel Plaza. Todos los derechos reservados.</p>
-    <small>Desarrollado con Django y Bootstrap.</small>
-  </div>
-</footer>
+
 
 <!-- JS -->
 <script src="{% static 'plugins/jquery/jquery.js' %}"></script>
